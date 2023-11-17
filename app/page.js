@@ -1,113 +1,150 @@
-import Image from 'next/image'
+"use client"
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+
 
 export default function Home() {
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const totalSlides = 3;
+
+  const nextSlide = () => {
+    setCurrentSlide((prevSlide) => (prevSlide + 1) % totalSlides);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prevSlide) =>
+      prevSlide === 0 ? totalSlides - 1 : prevSlide - 1
+    );
+  };
+
+  useEffect(() => {
+    const interval = setInterval(nextSlide, 5000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <>
+      <section className="relative pb-8 " style={{ height: "750px" }}>
+        {[...Array(totalSlides)].map((_, index) => (
+          <div key={index} className={`duration-700 ease-in-out ${currentSlide === index ? '' : 'hidden'
+            }`}>
+            <img src={`/robots${index + 1}.jpg`}
+              className="absolute top-0 bottom-0 left-0 right-0 object-cover w-full h-full" alt="RoboCT" />
+            <div className="absolute top-0 bottom-0 left-0 right-0 flex items-center bg-gray-900/30">
+              <div className="z-10 max-w-6xl px-4 mx-auto ">
+                <button
+                  type="button"
+                  className="w-3 h-3 absolute left-10 rounded-full"
+                  aria-current="true"
+                  aria-label="Previous Slide"
+                  onClick={prevSlide}
+                >
+                  <ArrowBackIosIcon />
+                </button>
+                <button
+                  type="button"
+                  className="w-3 h-3 absolute right-10 rounded-full"
+                  aria-current="true"
+                  aria-label="Next Slide"
+                  onClick={nextSlide}
+                >
+                  <ArrowForwardIosIcon />
+                </button>
+                <h2
+                  className="mt-2 mb-4 text-3xl font-bold leading-tight text-white md:text-4xl md:leading-tight lg:text-7xl lg:leading-tight g">
+                  The Future
+                </h2>
+
+              </div>
+            </div>
+            <div className="absolute z-10 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2">
+
+              {[...Array(totalSlides)].map((_, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  className={`w-3 h-3 rounded-full ${currentSlide === index ? 'bg-black' : 'bg-white'
+                    }`}
+                  aria-current={currentSlide === index}
+                  aria-label={`Slide ${index + 1}`}
+                  onClick={() => setCurrentSlide(index)}
+                />
+              ))}
+
+            </div>
+          </div>
+        ))}
+      </section>
+
+      <SecondSection />
+      <ThirdSection />
+    </>
+  );
+};
+
+const SecondSection = () => {
+
+  return (
+    <section className="body-font overflow-hidden">
+      <div className="container px-5 py-24 mx-auto">
+        <div className="flex flex-wrap -m-12">
+          <div className="p-12 md:w-1/2 flex flex-col items-start">
+            <span className="inline-block py-1 px-2 text-xs font-medium tracking-widest">TECHNICAL SPECIFICATION</span>
+            <h2 className="sm:text-8xl text-2xl title-font font-bold uppercase  mt-4 mb-4">Range</h2>
+            <p className="leading-relaxed text-2xl sm:text-7xl qodef-m-item  mb-6">Acceleration</p>
+            <p className="leading-relaxed text-2xl sm:text-7xl qodef-m-item  mb-6">Total power</p>
+            <p className="leading-relaxed text-2xl sm:text-7xl qodef-m-item  mb-6">Charging</p>
+            <p className="leading-relaxed text-2xl sm:text-7xl qodef-m-item  mb-6">Interior</p>
+          </div>
+          <div className="p-12 md:w-1/2 flex flex-col items-start">
+            <h2 className="sm:text-xl text-lg title-font font-bold  mt-4 mb-4">TOTAL POWER UP TO 750 HP</h2>
+            <p className="leading-relaxed text-gray-400 mb-8">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quam, culpa Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis, explicabo.</p>
+            <h2 className="sm:text-xl text-lg title-font font-bold  mt-4 mb-4">POWER CONSUMPTION</h2>
+            <ul className="pl-5 space-y-3 text-gray-400 list-disc marker:text-orange-500">
+              <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. A, corporis!</li>
+              <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. A, corporis!</li>
+              <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. A, corporis!</li>
+            </ul>
+          </div>
         </div>
       </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </section>
   )
-}
+};
+
+const ThirdSection = () => {
+
+  return (
+    <>
+      <section className=" body-font">
+        <div className="container mx-auto flex px-5 pt-24 md:flex-row flex-col items-center">
+          <div className=" md:w-1/2 px-10 m-4 h-[50vh]  flex flex-col justify-center md:items-center md:text-center mb-16 md:mb-0 items-center text-center bg-stone-900">
+            <p className="mb-8 leading-relaxed">Copper mug try-hard pitchfork pour-over freegan heirloom neutra air plant cold-pressed tacos poke beard tote bag. Heirloom echo park mlkshk tote bag selvage hot chicken authentic tumeric truffaut hexagon try-hard chambray.</p>
+          </div>
+          <div className="lg:max-w-lg lg:w-full m-4 md:w-1/2 w-5/6">
+            <img className="object-cover object-center rounded" alt="aircraft" src="/aircraft.jpg" />
+          </div>
+        </div>
+      </section>
+      <section className=" body-font">
+        <div className="container mx-auto flex px-5 pb-24 md:flex-row flex-col items-center">
+          <div className="lg:max-w-lg lg:w-full md:w-1/2  m-4 w-5/6 mb-10 md:mb-0">
+            <img className="object-cover object-center rounded" alt="aircraft" src="/aircraft1.jpg" />
+          </div>
+          <div className="md:w-1/2 px-10 flex m-4 bg-stone-900 h-[50vh] justify-center flex-col md:items-center md:text-center items-center text-center">
+
+            <p className="mb-8 leading-relaxed">Copper mug try-hard pitchfork pour-over freegan heirloom neutra air plant cold-pressed tacos poke beard tote bag. Heirloom echo park mlkshk tote bag selvage hot chicken authentic tumeric truffaut hexagon try-hard chambray.</p>
+
+          </div>
+        </div>
+      </section>
+    </>
+  );
+};
