@@ -6,7 +6,6 @@ const Footer = () => {
     <div class="container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
       <div class="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
         <a class="flex title-font font-medium items-center md:justify-start justify-center">
-       
           <span class="ml-3 text-5xl">RoboCT</span>
         </a>
         <p class="mt-2 text-sm ">Hit the road with the astounding ShiftUp theme, made especially for repair shops, car rental and automotive easing services.</p>
